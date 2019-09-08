@@ -68,29 +68,46 @@ Content-Type: application/json
 X-Todoist-Hmac-SHA256: UEEq9si3Vf9yRSrLthbpazbb69kP9+CZQ7fXmVyjhPs=
 
 {
-    "event_name": "item:added",
-    "user_id": 1234,
+    "event_name": "item:completed",
+    "initiator": {
+        "is_premium": true,
+        "image_id": "abc",
+        "id": 1,
+        "full_name": "Ben Matheja",
+        "email": "post@benmatheja.de"
+    },
+    "user_id": 1,
     "event_data": {
-      "day_order": -1,
-      "assigned_by_uid": 1855589,
-      "labels": [],
-      "sync_id": null,
-      "in_history": 0,
-      "has_notifications": 0,
-      "indent": 1,
-      "checked": 0,
-      "date_added": "2014-09-26T08:25:05Z",
-      "id": 33511505,
-      "content": "Task1",
-      "user_id": 1234,
-      "due": null,
-      "children": null,
-      "priority": 1,
-      "item_order": 1,
-      "is_deleted": 0,
-      "responsible_uid": null,
-      "project_id": 128501470,
-      "collapsed": 0,
+        "due_date": "Tue 23 May 2017 05:00:00 +0000",
+        "assigned_by_uid": null,
+        "is_recurring": 0,
+        "is_archived": 0,
+        "labels": [
+            2
+        ],
+        "sync_id": null,
+        "datetime": null,
+        "content": "Kommen Zeit notieren",
+        "in_history": 0,
+        "timezone": null,
+        "date": null,
+        "checked": 0,
+        "date_lang": "en",
+        "id": 3,
+        "priority": 3,
+        "indent": 1,
+        "date_added": "Tue 04 Apr 2017 17:52:20 +0000",
+        "user_id": 4,
+        "url": "https:\/\/todoist.com\/showTask?id=5",
+        "is_deleted": 0,
+        "item_order": 9,
+        "datetime_utc": null,
+        "parent_id": null,
+        "due_date_utc": "Tue 23 May 2017 05:00:00 +0000",
+        "responsible_uid": null,
+        "project_id": 6,
+        "collapsed": 0,
+        "date_string": "every workday AT 7"
     }
 }
 ```
