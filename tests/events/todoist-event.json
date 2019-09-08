@@ -1,0 +1,26 @@
+{
+    "event_name": "item:added",
+    "user_id": 1234,
+    "event_data": {
+      "day_order": -1,
+      "assigned_by_uid": 1855589,
+      "labels": [],
+      "sync_id": null,
+      "in_history": 0,
+      "has_notifications": 0,
+      "indent": 1,
+      "checked": 0,
+      "date_added": "2014-09-26T08:25:05Z",
+      "id": 33511505,
+      "content": "Task1",
+      "user_id": 1234,
+      "due": null,
+      "children": null,
+      "priority": 1,
+      "item_order": 1,
+      "is_deleted": 0,
+      "responsible_uid": null,
+      "project_id": 128501470,
+      "collapsed": 0
+    }
+}
