@@ -1,4 +1,4 @@
 certifi==2017.11.5
-requests==2.18.4
+requests==2.20.0
 todoist-python==8.0.0
 pytest
