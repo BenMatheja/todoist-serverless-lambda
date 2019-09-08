@@ -46,7 +46,7 @@ def extract_useragent(event):
 
 
 def extract_delivered_hmac(event):
-    return event.get('headers')['X-Todoist-Hmac-SHA256']
+    return event.get('headers')['x-todoist-hmac-sha256']
 
 
 """

@@ -1,5 +1,5 @@
 {
-    "event_name": "item:added",
+    "event_name": "item:completed",
     "user_id": 1234,
     "event_data": {
       "day_order": -1,
@@ -12,7 +12,7 @@
       "checked": 0,
       "date_added": "2014-09-26T08:25:05Z",
       "id": 33511505,
-      "content": "Task1",
+      "content": "Kommen Zeit notieren",
       "user_id": 1234,
       "due": null,
       "children": null,
