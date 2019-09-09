@@ -51,7 +51,7 @@ def test_extract_delivered_hmac(lambda_event):
 
 
 def test_compute_hmac(todoist_event):
-    h.compute_hmac(todoist_event, '9b65cf723f6d4824960bb9c74a24ebcd')
+    h.compute_hmac(json.dumps(todoist_event), '9b65cf723f6d4824960bb9c74a24ebcd')
 
 
 def test_create_todoist_task():

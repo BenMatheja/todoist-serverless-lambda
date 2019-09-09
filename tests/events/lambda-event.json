@@ -17,7 +17,7 @@
         "content-type": "application/json",
         "host": "lambda-alb-123578498.us-east-2.elb.amazonaws.com",
         "upgrade-insecure-requests": "1",
-        "user-agent": "Todoist-Webhooks",
+        "User-Agent": "Todoist-Webhooks",
         "x-amzn-trace-id": "Root=1-5c536348-3d683b8b04734faae651f476",
         "x-forwarded-for": "72.12.164.125",
         "x-forwarded-port": "80",
@@ -26,6 +26,6 @@
         "x-todoist-delivery-id": "fed6cbe9-d777-4091-afc5-87838fb04a24",
         "x-todoist-hmac-sha256": "110FA32syjKn2ZclljQp2qscyH+Hcd9t0KzHaVqvhDY="
     },
-    "body": "{\\r\\n    \\\"event_name\\\": \\\"item:completed\\\",\\r\\n    \\\"user_id\\\": 1234,\\r\\n    \\\"event_data\\\": {\\r\\n      \\\"day_order\\\": -1,\\r\\n      \\\"assigned_by_uid\\\": 1855589,\\r\\n      \\\"labels\\\": [],\\r\\n      \\\"sync_id\\\": null,\\r\\n      \\\"in_history\\\": 0,\\r\\n      \\\"has_notifications\\\": 0,\\r\\n      \\\"indent\\\": 1,\\r\\n      \\\"checked\\\": 0,\\r\\n      \\\"date_added\\\": \\\"2014-09-26T08:25:05Z\\\",\\r\\n      \\\"id\\\": 33511505,\\r\\n      \\\"content\\\": \\\"Kommen Zeit notieren\\\",\\r\\n      \\\"user_id\\\": 1234,\\r\\n      \\\"due\\\": null,\\r\\n      \\\"children\\\": null,\\r\\n      \\\"priority\\\": 1,\\r\\n      \\\"item_order\\\": 1,\\r\\n      \\\"is_deleted\\\": 0,\\r\\n      \\\"responsible_uid\\\": null,\\r\\n      \\\"project_id\\\": 128501470,\\r\\n      \\\"collapsed\\\": 0\\r\\n    }\\r\\n}",
+    "body": "",
     "isBase64Encoded": false
 }
