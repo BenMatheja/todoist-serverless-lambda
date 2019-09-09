@@ -5,6 +5,7 @@ import base64, hmac, hashlib
 import datetime
 from pytz import timezone
 from todoist.api import TodoistAPI
+
 # ToDo: Migrate hour settings to configuration
 WORKING_HOURS = 10
 WORKING_MINUTES = 43
@@ -35,21 +36,19 @@ and the whole request payload as the message to be encrypted.
 The resulting Hmac would be encoded in a base64 string.
 """
 def compute_hmac(body, todoist_clientsecret = get_clientsecret()):
-    message = bytes(json.dumps(body), 'utf-8')
+    logger.info("compute_hmac with %s ", body)
     signature =  base64.b64encode(hmac.new(
         todoist_clientsecret.encode('utf-8'),
-        message,
+        body.encode('utf-8'),
         digestmod=hashlib.sha256).digest()).decode('utf-8')
-    logging.info('Computed hmac: %s', signature)
     return signature
 
 
 def extract_useragent(event):
-    return event.get('headers')['user-agent']
-
+    return event.get('headers')['User-Agent']
 
 def extract_delivered_hmac(event):
-    return event.get('headers')['x-todoist-hmac-sha256']
+   return event.get('headers')['x-todoist-hmac-sha256']
 
 
 """
@@ -60,25 +59,27 @@ Handle the incoming Event
 * Work on Event
 """
 def handle_event(event, context):
+    logger.info('ENVIRONMENT VARIABLES: %s', os.environ)
+    logger.info('EVENT: %s', event)
+
     todoist_clientsecret = get_clientsecret()
     if not todoist_clientsecret:
-        logging.warning('Please set the todoist_clientsecret in environment variable.')
+        logger.error('Please set the todoist_clientsecret in environment variable.')
         exit()
 
-    # ToDo: POST should be covered via serverless service description
-    if event.get('httpMethod') == 'POST' and event.get('body') and extract_useragent(event) == 'Todoist-Webhooks':
-        logging.info('request was formally correct')
-        # Compare sent hmac with own computed hmac
+    if  event.get('body') and extract_useragent(event) == 'Todoist-Webhooks':
+        logger.info('request seems correct')
+
         delivered_hmac = extract_delivered_hmac(event)
         computed_hmac = compute_hmac(event.get('body'))
-        logging.info('Delivered hmac: %s ', delivered_hmac)
-        logging.info('Conputed hmac: %s', computed_hmac)
+        logger.info('Delivered hmac: ' + delivered_hmac)
+        logger.info('Computed hmac: ' + computed_hmac)
 
         if computed_hmac == delivered_hmac:
-            logging.info('Sent HMAC is valid with own computed one')
+            logger.info('Sent HMAC is valid with own computed one')
             json_body = json.loads(event.get('body'))
             if json_body.get('event_data')['content'] == "Kommen Zeit notieren":
-                logging.info("Received a Clock-In Event")
+                logger.info("Received a Clock-In Event")
                 create_todoist_task()
     response = {
         "statusCode": 200,
@@ -93,7 +94,7 @@ Routine to create a new Todoist Task using the Sync API
 def create_todoist_task():
     todoist_apikey = get_token()
     if not todoist_apikey:
-        logging.warning('Please set the todoist_apikey in environment variable.')
+        logger.error('Please set the todoist_apikey in environment variable.')
         exit()
 
     now = datetime.datetime.now().astimezone(timezone('Europe/Amsterdam'))
@@ -103,20 +104,16 @@ def create_todoist_task():
     clockout_time = str(acc.hour) + ':' + str('%02d' % acc.minute)
     soll_time = str(soll.hour) + ':' + str('%02d' % soll.minute)
 
-    logging.info('Create Todoist Task: ' + 'Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ' ) due at ' + clockout_time)
+    logger.info('Create Todoist Task: ' + 'Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ' ) due at ' + clockout_time)
 
     api = TodoistAPI(token=get_token(), cache="/tmp/todoist")
+    logger.info("Connect to Todoist API with: %s", get_token())
     if not api.sync():
-        logging.warning('Connecting to Todoist failed')
+        logger.warning('Todoist: API Sync failed')
         exit()
 
     api.items.add('Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ' )',
                   project_id='178923234', date_string=clockout_time, labels=[2147513595],
                   priority=3)
-
-    if not api.commit():
-        logging.warning('Delivering the new Task to Todoist failed')
-
-
-
-
+    if api.commit():
+        logger.info("Todoist Task has been created")
