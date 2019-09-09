@@ -5,6 +5,19 @@ A Todoist-Webhook Integration to create tasks based on specific events
 ## Installation
 1. Install [Serverless framework](https://serverless.com/) using their [install instructions](https://serverless.com/learn/quick-start/#installing-serverless)
 
+Add the serverless-python-requirements plugin
+https://serverless.com/blog/serverless-python-packaging/
+```
+(venv) $ npm init
+This utility will walk you through creating a package.json file.
+
+...Truncated...
+
+Is this ok? (yes) yes
+
+(venv) $ npm install --save serverless-python-requirements
+```
+
 2. Save your Todoist API key and Clientsecret as an [SSM Parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html)
     ```
     aws ssm put-parameter --name TodoistApiKey --type SecureString --value <your API key>

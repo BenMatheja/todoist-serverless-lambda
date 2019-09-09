@@ -1,0 +1,25 @@
+{
+  "name": "todoist-serverless-lambda",
+  "version": "1.0.0",
+  "description": "A Todoist-Webhook Integration to create tasks based on specific events",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenMatheja/todoist-serverless-lambda.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenMatheja/todoist-serverless-lambda/issues"
+  },
+  "homepage": "https://github.com/BenMatheja/todoist-serverless-lambda#readme",
+  "dependencies": {
+    "serverless-python-requirements": "^5.0.0"
+  }
+}

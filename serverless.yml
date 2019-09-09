@@ -2,16 +2,27 @@ service: todoist-serverless-lambda
 
 provider:
   name: aws
-  runtime: python3.7
-  region: us-east-1
+  runtime: python3.6
+  region: us-west-1
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    slim: true
+  dockerizePip: non-linux
 
 functions:
   todoist_webhook:
-    handler: handler.handle_event
+    handler: handlers.todoist_handler.handle_event
+    events:
+      - http:
+          path: /todoist/webhook
+          method: post
     description: "Handle Todoist Webhooks Events"
     memorySize: 128
-    timeout: 60
+    timeout: 30
     environment:
       TODOIST_APIKEY: ${ssm:/TodoistApiKey~true}
-      TODOIST_CLIENTSECRET: $(ssm:/TodoistClientsecret~true}
-
+      TODOIST_CLIENTSECRET: ${ssm:/TodoistClientsecret~true}
