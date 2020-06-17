@@ -2,6 +2,9 @@
 
 A Todoist-Webhook Integration to create tasks based on specific events
 
+## Requirements
+* This service requires Python 3.6+
+
 ## Installation
 1. Install [Serverless framework](https://serverless.com/) using their [install instructions](https://serverless.com/learn/quick-start/#installing-serverless)
 
