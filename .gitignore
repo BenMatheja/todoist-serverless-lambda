@@ -1,3 +1,8 @@
 env/*
 package-lock.json
 *.pyc
+.serverless/*
+.idea/*
+.pytest_cache/*
+.vscode/*
+node_modules/*
