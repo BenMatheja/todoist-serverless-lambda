@@ -62,11 +62,6 @@ def handle_event(event, context):
     #logger.info('ENVIRONMENT VARIABLES: %s', os.environ)
     logger.info('EVENT: %s', event)
 
-    todoist_clientsecret = get_clientsecret()
-    if not todoist_clientsecret:
-        logger.error('Please set the todoist_clientsecret in environment variable.')
-        exit()
-
     if  event.get('body') and extract_useragent(event) == 'Todoist-Webhooks':
         #logger.info('Request has body and useragent is correct')
 

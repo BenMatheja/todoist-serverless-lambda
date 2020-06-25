@@ -1,0 +1,31 @@
+{
+    "requestContext": {
+        "elb": {
+            "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-2:123456789012:targetgroup/lambda-279XGJDqGZ5rsrHC2Fjr/49e9d65c45c6791a"
+        }
+    },
+    "httpMethod": "POST",
+    "path": "/lambda",
+    "queryStringParameters": {
+        "query": "1234ABCD"
+    },
+    "headers": {
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "accept-encoding": "gzip",
+        "accept-language": "en-US,en;q=0.9",
+        "connection": "keep-alive",
+        "content-type": "application/json",
+        "host": "lambda-alb-123578498.us-east-2.elb.amazonaws.com",
+        "upgrade-insecure-requests": "1",
+        "User-Agent": "Todoist-Webhooks",
+        "x-amzn-trace-id": "Root=1-5c536348-3d683b8b04734faae651f476",
+        "x-forwarded-for": "72.12.164.125",
+        "x-forwarded-port": "80",
+        "x-forwarded-proto": "http",
+        "x-imforwards": "20",
+        "x-todoist-delivery-id": "fed6cbe9-d777-4091-afc5-87838fb04a24",
+        "x-todoist-hmac-sha256": "cWXrKpcCmoFRSOydGbkK5Rw5aTLUQkyM50tTqRzkCC4="
+    },
+    "body": "{'event_name': 'item:completed','initiator': {'is_premium': true,'image_id': '09f1a0bde4f648d96060ea34c17cc7c1','id': 4804009,'full_name': 'Ben Matheja','email': 'post@benmatheja.de'},'version': '8','user_id': 4804009,'event_data': {'legacy_project_id': 146413728,'is_deleted': 0,'assigned_by_uid': 4804009,'labels': [],'sync_id': null,'section_id': null,'in_history': 1,'child_order': 5,'date_added': '2019-09-09T17:08:41Z','checked': 1,'id': 3387326065,'content': 'Kommen Zeit notieren','date_completed': '2019-09-09T17:08:36Z','user_id': 4804009,'url': 'https://todoist.com/showTask?id=3387326065','due': {'date': '2019-09-09','timezone': null,'is_recurring': false,'string': 'Sep 9','lang': 'de'},'priority': 1,'parent_id': null,'responsible_uid': null,'project_id': 1488591008,'collapsed': 0}}",
+    "isBase64Encoded": false
+}
