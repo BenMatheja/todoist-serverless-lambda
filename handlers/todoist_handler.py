@@ -1,7 +1,7 @@
 import json
 import logging
 import os
-import base64, hmac, hashlib
+import base64, hmac, hashlib, http.client
 import datetime
 from pytz import timezone
 from todoist.api import TodoistAPI
@@ -36,7 +36,7 @@ and the whole request payload as the message to be encrypted.
 The resulting Hmac would be encoded in a base64 string.
 """
 def compute_hmac(body, todoist_clientsecret = get_clientsecret()):
-    logger.info("compute_hmac with %s ", body)
+    #logger.info("compute_hmac with %s ", body)
     signature =  base64.b64encode(hmac.new(
         todoist_clientsecret.encode('utf-8'),
         body.encode('utf-8'),
@@ -59,7 +59,7 @@ Handle the incoming Event
 * Work on Event
 """
 def handle_event(event, context):
-    logger.info('ENVIRONMENT VARIABLES: %s', os.environ)
+    #logger.info('ENVIRONMENT VARIABLES: %s', os.environ)
     logger.info('EVENT: %s', event)
 
     todoist_clientsecret = get_clientsecret()
@@ -68,7 +68,7 @@ def handle_event(event, context):
         exit()
 
     if  event.get('body') and extract_useragent(event) == 'Todoist-Webhooks':
-        logger.info('request seems correct')
+        #logger.info('Request has body and useragent is correct')
 
         delivered_hmac = extract_delivered_hmac(event)
         computed_hmac = compute_hmac(event.get('body'))
@@ -81,10 +81,14 @@ def handle_event(event, context):
             if json_body.get('event_data')['content'] == "Kommen Zeit notieren":
                 logger.info("Received a Clock-In Event")
                 create_todoist_task()
-    response = {
-        "statusCode": 200,
-        "body": ""
-    }
+                response =  {"status": http.client.responses[http.client.CREATED]}
+            else:
+                response =  {"status": http.client.responses[http.client.NO_CONTENT]}
+        else:
+           response = {"status": http.client.responses[http.client.UNAUTHORIZED]} 
+    else:
+        response = {"status": http.client.responses[http.client.BAD_REQUEST]}
+    
     return response
 
 
@@ -92,11 +96,6 @@ def handle_event(event, context):
 Routine to create a new Todoist Task using the Sync API
 """
 def create_todoist_task():
-    todoist_apikey = get_token()
-    if not todoist_apikey:
-        logger.error('Please set the todoist_apikey in environment variable.')
-        exit()
-
     now = datetime.datetime.now().astimezone(timezone('Europe/Amsterdam'))
     soll = datetime.timedelta(hours=REQUIRED_WORKING_HOURS, minutes=WORKING_MINUTES) + now
     acc = datetime.timedelta(hours=WORKING_HOURS, minutes=WORKING_MINUTES) + now
@@ -107,7 +106,7 @@ def create_todoist_task():
     logger.info('Create Todoist Task: ' + 'Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ' ) due at ' + clockout_time)
 
     api = TodoistAPI(token=get_token(), cache="/tmp/todoist")
-    logger.info("Connect to Todoist API with: %s", get_token())
+    logger.info("Trying to connect to Todoist API with: %s", get_token())
     if not api.sync():
         logger.warning('Todoist: API Sync failed')
         exit()

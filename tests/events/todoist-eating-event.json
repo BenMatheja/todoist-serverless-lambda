@@ -1,0 +1,42 @@
+{
+    "version": "8",
+    "user_id": 123,
+    "initiator": {
+        "id": 123,
+        "full_name": "Ben Matheja",
+        "email": "a@b.de",
+        "image_id": "123",
+        "is_premium": true
+    },
+    "event_name": "item:completed",
+    "event_data": {
+        "labels": [],
+        "sync_id": null,
+        "date_completed": null,
+        "in_history": 0,
+        "child_order": 11,
+        "id": 324,
+        "priority": 3,
+        "checked": 0,
+        "added_by_uid": 123,
+        "content": "Check-Out Eating",
+        "parent_id": null,
+        "project_id": 1509802153,
+        "assigned_by_uid": null,
+        "collapsed": 0,
+        "section_id": null,
+        "date_added": "2020-06-25T15:34:38Z",
+        "user_id": 123,
+        "is_deleted": 0,
+        "responsible_uid": null,
+        "legacy_project_id": 167624873,
+        "due": {
+            "date": "2020-06-26",
+            "timezone": null,
+            "string": "daily",
+            "lang": "en",
+            "is_recurring": true
+        },
+        "url": "https://todoist.com/showTask?id=3994935138"
+    }
+}
