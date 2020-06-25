@@ -79,28 +79,28 @@ Functional Tests
 '''
 
 
-# def test_extract_user_agent(lambda_event):
-#     assert h.extract_useragent(lambda_event) == 'Todoist-Webhooks'
+def test_extract_user_agent(lambda_event):
+    assert h.extract_useragent(lambda_event) == 'Todoist-Webhooks'
 
 
-# def test_extract_delivered_hmac(lambda_event):
-#     assert h.extract_delivered_hmac(lambda_event) == '110FA32syjKn2ZclljQp2qscyH+Hcd9t0KzHaVqvhDY='
+def test_extract_delivered_hmac(lambda_event):
+    assert h.extract_delivered_hmac(lambda_event) == '110FA32syjKn2ZclljQp2qscyH+Hcd9t0KzHaVqvhDY='
 
 
-# def test_compute_hmac(todoist_event):
-#     assert h.compute_hmac(json.dumps(todoist_event), '9b65cf723f6d4824960bb9c74a24ebcd') == 'b+YoFmRYu8pd7fLhsEmtDXBToWXIGqYOvRNDLcK+Yy8='
+def test_compute_hmac(todoist_event):
+    assert h.compute_hmac(json.dumps(todoist_event), '9b65cf723f6d4824960bb9c74a24ebcd') == 'b+YoFmRYu8pd7fLhsEmtDXBToWXIGqYOvRNDLcK+Yy8='
 
-# def test_handle_lambda_event_with_no_body(lambda_event, context):
-#     response = h.handle_event(lambda_event, context)
-#     assert response["status"] == "Bad Request"
+def test_handle_lambda_event_with_no_body(lambda_event, context):
+    response = h.handle_event(lambda_event, context)
+    assert response["status"] == "Bad Request"
 
-# def test_handle_lambda_event_with_malformed_body(lambda_event_body, context):
-#     response = h.handle_event(lambda_event_body, context)
-#     assert response["status"] == "Unauthorized"
+def test_handle_lambda_event_with_malformed_body(lambda_event_body, context):
+    response = h.handle_event(lambda_event_body, context)
+    assert response["status"] == "Unauthorized"
 
 def test_handle_lambda_event_with_extended_body(lambda_event_body_extended, context):
     response = h.handle_event(lambda_event_body_extended, context)
     assert response["status"] == "Bad Request"
     
-#def test_create_todoist_task():
-#   h.create_todoist_task()
+def test_create_todoist_task():
+  h.create_todoist_task()
