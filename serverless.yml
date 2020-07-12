@@ -24,5 +24,5 @@ functions:
     memorySize: 128
     timeout: 30
     environment:
-      TODOIST_APIKEY: ${ssm:/TodoistApiKey~true}
-      TODOIST_CLIENTSECRET: ${ssm:/TodoistClientsecret~true}
+      TODOIST_APIKEY: ${ssm.us-west-1:/TodoistApiKey~true}
+      TODOIST_CLIENTSECRET: ${ssm.us-west-1:/TodoistClientsecret~true}
