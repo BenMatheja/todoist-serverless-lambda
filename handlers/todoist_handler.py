@@ -76,7 +76,7 @@ Handle the incoming Event
 
 
 def handle_event(event, context):
-    logger.info('ENVIRONMENT VARIABLES: %s', os.environ)
+    # logger.info('ENVIRONMENT VARIABLES: %s', os.environ)
     logger.info('EVENT: %s', event)
 
     if event.get('body') and extract_useragent(event) == 'Todoist-Webhooks':
