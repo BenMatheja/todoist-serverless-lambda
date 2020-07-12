@@ -1,9 +1,10 @@
 name: Deploy to AWS
 
-on:
-    create:
-      tags:
-        - v*
+# on:
+#     create:
+#       tags:
+#         - v*
+on: [push]
 jobs:
     deploy:
         name: deploy
