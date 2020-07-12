@@ -1,17 +1,18 @@
 name: Deploy to AWS
-
 on: [push]
 jobs:
     deploy:
-        name: deploy
+        name: Deployment
         runs-on: ubuntu-latest
         steps:
+        - name: Checkout
         - uses: actions/checkout@master
-        - run: npm install serverless
-        - name: serverless deploy
+        - name: Install Python-Requirements Plugin and Deploy
           uses: serverless/github-action@master
           with:
-            args: deploy
+            args: -c "serverless plugin install --name serverless-python-requirements && serverless deploy --verbose"
+            entrypoint: /bin/bash
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            SLS_DEBUG: 1
