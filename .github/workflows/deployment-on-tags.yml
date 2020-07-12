@@ -1,3 +1,4 @@
+name: Deploy to AWS
 on:
     create:
       tags:
