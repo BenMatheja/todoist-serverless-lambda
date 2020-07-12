@@ -10,6 +10,7 @@ from todoist.api import TodoistAPI
 WORKING_HOURS = 10
 WORKING_MINUTES = 43
 REQUIRED_WORKING_HOURS = 8
+INTERMITTENT_FASTING_HOURS = 16
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -59,7 +60,7 @@ Handle the incoming Event
 * Work on Event
 """
 def handle_event(event, context):
-    #logger.info('ENVIRONMENT VARIABLES: %s', os.environ)
+    logger.info('ENVIRONMENT VARIABLES: %s', os.environ)
     logger.info('EVENT: %s', event)
 
     if  event.get('body') and extract_useragent(event) == 'Todoist-Webhooks':
@@ -75,7 +76,11 @@ def handle_event(event, context):
             json_body = json.loads(event.get('body'))
             if json_body.get('event_data')['content'] == "Kommen Zeit notieren":
                 logger.info("Received a Clock-In Event")
-                create_todoist_task()
+                create_todoist_clockout_task()
+                response =  {"status": http.client.responses[http.client.CREATED]}
+            if json_body.get('event_data')['content'] == "Last Meal finished":
+                logger.info("Received a Last Meal Event")
+                create_todoist_lastmeal_task()
                 response =  {"status": http.client.responses[http.client.CREATED]}
             else:
                 response =  {"status": http.client.responses[http.client.NO_CONTENT]}
@@ -88,9 +93,9 @@ def handle_event(event, context):
 
 
 """
-Routine to create a new Todoist Task using the Sync API
+Routine to create a new Todoist Clock-Out Task using the Sync API
 """
-def create_todoist_task():
+def create_todoist_clockout_task():
     now = datetime.datetime.now().astimezone(timezone('Europe/Amsterdam'))
     soll = datetime.timedelta(hours=REQUIRED_WORKING_HOURS, minutes=WORKING_MINUTES) + now
     acc = datetime.timedelta(hours=WORKING_HOURS, minutes=WORKING_MINUTES) + now
@@ -98,7 +103,7 @@ def create_todoist_task():
     clockout_time = str(acc.hour) + ':' + str('%02d' % acc.minute)
     soll_time = str(soll.hour) + ':' + str('%02d' % soll.minute)
 
-    logger.info('Create Todoist Task: ' + 'Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ' ) due at ' + clockout_time)
+    logger.info('Create Todoist Clock-Out Task: ' + 'Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ' ) due at ' + clockout_time)
 
     api = TodoistAPI(token=get_token(), cache="/tmp/todoist")
     logger.info("Trying to connect to Todoist API with: %s", get_token())
@@ -111,3 +116,18 @@ def create_todoist_task():
                   priority=3)
     if api.commit():
         logger.info("Todoist Task has been created")
+
+"""
+Routine to create a new Todoist Last Meal Task using the Sync API
+* Take current time
+* add 16 hours to it
+* Create a new Task 16h in the future
+"""
+def create_todoist_lastmeal_task():
+    now = datetime.datetime.now().astimezone(timezone('Europe/Amsterdam'))
+    cleared_time = datetime.timedelta(hours=INTERMITTENT_FASTING_HOURS) + now
+
+    checkin_time = str(now.hour) + ':' + str('%02d' % now.minute)
+    checkout_time = str(cleared_time.hour) + ':' + str('%02d' % cleared_time.minute)
+
+    logger.info('Create Todoist LastMeal Task: ' + 'Checked in: ' + checkin_time + ' due at ' + checkout_time)

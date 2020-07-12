@@ -20,14 +20,6 @@ LAMBDA_EVENT_BODY = os.path.join(
     'lambda-event-body.json'
 )
 
-LAMBDA_EVENT_BODY_EXTENDED = os.path.join(
-    os.path.dirname(__file__),
-    '..',
-    '..',
-    'events',
-    'lambda-event-body-extended.json'
-)
-
 TODOIST_EATING_EVENT = os.path.join(
     os.path.dirname(__file__),
     '..',
@@ -52,11 +44,6 @@ def lambda_event(event_file=LAMBDA_EVENT):
 
 @pytest.fixture()
 def lambda_event_body(event_file=LAMBDA_EVENT_BODY):
-    with open(event_file) as f:
-        return json.load(f)
-
-@pytest.fixture()
-def lambda_event_body_extended(event_file=LAMBDA_EVENT_BODY_EXTENDED):
     with open(event_file) as f:
         return json.load(f)
 
@@ -97,10 +84,6 @@ def test_handle_lambda_event_with_no_body(lambda_event, context):
 def test_handle_lambda_event_with_malformed_body(lambda_event_body, context):
     response = h.handle_event(lambda_event_body, context)
     assert response["status"] == "Unauthorized"
-
-def test_handle_lambda_event_with_extended_body(lambda_event_body_extended, context):
-    response = h.handle_event(lambda_event_body_extended, context)
-    assert response["status"] == "Bad Request"
-    
-def test_create_todoist_task():
-  h.create_todoist_task()
+   
+def test_create_todoist_clockout_task():
+  h.create_todoist_clockout_task()
