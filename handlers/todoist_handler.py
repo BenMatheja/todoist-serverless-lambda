@@ -103,7 +103,9 @@ def create_todoist_clockout_task():
     clockout_time = str(acc.hour) + ':' + str('%02d' % acc.minute)
     soll_time = str(soll.hour) + ':' + str('%02d' % soll.minute)
 
-    logger.info('Create Todoist Clock-Out Task: ' + 'Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ' ) due at ' + clockout_time)
+    task_content = 'Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ')'
+
+    logger.info('Create Todoist Clock-Out Task: ' + task_content + ' due at: ' + clockout_time)
 
     api = TodoistAPI(token=get_token(), cache="/tmp/todoist")
     logger.info("Trying to connect to Todoist API with: %s", get_token())
@@ -111,11 +113,11 @@ def create_todoist_clockout_task():
         logger.warning('Todoist: API Sync failed')
         exit()
 
-    api.items.add('Gehen (Gekommen: ' + clockin_time + ', Soll erreicht: ' + soll_time + ' )',
+    api.items.add(task_content,
                   project_id='178923234', date_string=clockout_time, labels=[2147513595],
                   priority=3)
     if api.commit():
-        logger.info("Todoist Task has been created")
+        logger.info("Todoist Clock-Out Task has been created")
 
 """
 Routine to create a new Todoist Last Meal Task using the Sync API
@@ -130,4 +132,15 @@ def create_todoist_lastmeal_task():
     checkin_time = str(now.hour) + ':' + str('%02d' % now.minute)
     checkout_time = str(cleared_time.hour) + ':' + str('%02d' % cleared_time.minute)
 
-    logger.info('Create Todoist LastMeal Task: ' + 'Checked in: ' + checkin_time + ' due at ' + checkout_time)
+    task_content = ' Intermittent Fasting - Cleared to eat (Check in: ' + checkin_time + ')'
+
+    logger.info('Create Todoist LastMeal Task: ' + task_content + ' due at: ' + checkout_time)
+    
+    api = TodoistAPI(token=get_token(), cache="/tmp/todoist")
+    logger.info("Trying to connect to Todoist API with: %s", get_token())
+    if not api.sync():
+        logger.warning('Todoist: API Sync failed')
+        exit()
+    api.items.add(task_content, project_id='1509802153', date_string=checkout_time, labels=[2154004914], priority=3)
+    if api.commit():
+        logger.info("Todoist LastMeal Task has been created")

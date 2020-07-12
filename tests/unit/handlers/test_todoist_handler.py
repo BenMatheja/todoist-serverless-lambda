@@ -86,4 +86,7 @@ def test_handle_lambda_event_with_malformed_body(lambda_event_body, context):
     assert response["status"] == "Unauthorized"
    
 def test_create_todoist_clockout_task():
-  h.create_todoist_clockout_task()
+    h.create_todoist_clockout_task()
+
+def test_create_todoist_lastmeal_task():
+    h.create_todoist_lastmeal_task()
