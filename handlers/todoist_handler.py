@@ -93,11 +93,11 @@ def handle_event(event, context):
             if json_body.get('event_data')['content'] == "Kommen Zeit notieren":
                 logger.info("Received a Clock-In Event")
                 create_todoist_clockout_task()
-                response = {"status": http.client.responses[http.client.CREATED]}
+                response = {"status": http.client.responses[http.client.OK]}
             if json_body.get('event_data')['content'] == "Last Meal finished":
                 logger.info("Received a Last Meal Event")
                 create_todoist_lastmeal_task()
-                response = {"status": http.client.responses[http.client.CREATED]}
+                response = {"status": http.client.responses[http.client.OK]}
             else:
                 response = {"status": http.client.responses[http.client.NO_CONTENT]}
         else:
