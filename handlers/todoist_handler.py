@@ -101,7 +101,7 @@ def handle_event(event, context):
                 response = {"statusCode": "200",
                             "body": "last-meal event handled"
                             }
-            else:
+            if json_body.get('event_data')['content'] not in ["Kommen Zeit notieren","Last Meal finished"]:
                 response = {"statusCode": "200",
                             "body": "generic event handled"
                             }
