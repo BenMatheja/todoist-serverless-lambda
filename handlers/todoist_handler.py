@@ -4,7 +4,6 @@ import os
 import base64
 import hmac
 import hashlib
-import http.client
 import datetime
 from pytz import timezone
 from todoist.api import TodoistAPI
@@ -80,7 +79,7 @@ def handle_event(event, context):
     logger.info('EVENT: %s', event)
 
     if event.get('body') and extract_useragent(event) == 'Todoist-Webhooks':
-        # logger.info('Request has body and useragent is correct')
+        logger.info('Request has body and useragent is correct')
 
         delivered_hmac = extract_delivered_hmac(event)
         computed_hmac = compute_hmac(event.get('body'))
@@ -93,17 +92,27 @@ def handle_event(event, context):
             if json_body.get('event_data')['content'] == "Kommen Zeit notieren":
                 logger.info("Received a Clock-In Event")
                 create_todoist_clockout_task()
-                response = {"status": http.client.responses[http.client.OK]}
+                response = {"statusCode": "200",
+                            "body": "clock-in event handled"
+                            }
             if json_body.get('event_data')['content'] == "Last Meal finished":
                 logger.info("Received a Last Meal Event")
                 create_todoist_lastmeal_task()
-                response = {"status": http.client.responses[http.client.OK]}
+                response = {"statusCode": "200",
+                            "body": "last-meal event handled"
+                            }
             else:
-                response = {"status": http.client.responses[http.client.NO_CONTENT]}
+                response = {"statusCode": "200",
+                            "body": "generic event handled"
+                            }
         else:
-            response = {"status": http.client.responses[http.client.UNAUTHORIZED]}
+            response = {"statusCode": "403",
+                        "body": "Unauthorized"
+                        }
     else:
-        response = {"status": http.client.responses[http.client.BAD_REQUEST]}
+        response = {"statusCode": "400",
+                    "body": "Bad Request"
+                    }
 
     return response
 
