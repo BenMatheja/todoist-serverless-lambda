@@ -23,12 +23,6 @@ jobs:
             node-version: 12.x
         - name: Install Serverless via NPM
           run: npm install -g serverless@1.75.1
-        - name: Provision Serverless with Credentials
-          run: serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY
-          env:
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            SLS_DEBUG: 1
         - name: Install Python Requirements Plugin
           run: serverless plugin install --name serverless-python-requirements
         - name: Deploy with Serverless
