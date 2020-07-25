@@ -25,6 +25,8 @@ jobs:
           run: npm install -g serverless
         - name: Install Python Requirements Plugin
           run: serverless plugin install --name serverless-python-requirements
+          env:
+            AWS_SDK_LOAD_CONFIG: 1
         - name: Deploy with Serverless
           run: "serverless deploy --verbose"
           env:
