@@ -4,7 +4,8 @@ A Todoist-Webhook Integration to create tasks based on specific events
 
 ## Requirements
 
-* This service requires Python 3.6+
+* This service requires Python 3.9+
+* Deployment requires serverless-framework (serverless@1.75.1) with Node.js 12.x
 
 ## Installation
 
