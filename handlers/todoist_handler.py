@@ -6,7 +6,7 @@ import hmac
 import hashlib
 import datetime
 from pytz import timezone
-from todoist.api import TodoistAPI
+from todoist_api_python.api import TodoistAPI
 
 # ToDo: Migrate hour settings to configuration
 WORKING_HOURS = 10
@@ -95,12 +95,6 @@ def handle_event(event, context):
                 response = {"statusCode": "200",
                             "body": "clock-in event handled"
                             }
-            if json_body.get('event_data')['content'] == "Last Meal finished":
-                logger.info("Received a Last Meal Event")
-                create_todoist_lastmeal_task()
-                response = {"statusCode": "200",
-                            "body": "last-meal event handled"
-                            }
             if json_body.get('event_data')['content'] not in ["Kommen Zeit notieren",
                                                               "Last Meal finished"]:
                 response = {"statusCode": "200",
@@ -136,47 +130,20 @@ def create_todoist_clockout_task():
 
     logger.info('Create Todoist Clock-Out Task: ' + task_content + ' due at: ' + clockout_time)
 
-    api = TodoistAPI(token=get_token(), cache="/tmp/todoist")
+    api = TodoistAPI(get_token())
     logger.info("Trying to connect to Todoist API with: %s", get_token())
-    if not api.sync():
-        logger.warning('Todoist: API Sync failed')
+    try:
+        projects = api.get_projects()
+        print(projects)
+    except Exception as error:
+        logger.warning('Todoist: API Sync failed' + error)
         exit()
 
-    api.items.add(task_content,
+    try:
+        task = api.add_task(task_content,
                   project_id='178923234', date_string=clockout_time, labels=[2147513595],
                   priority=3)
-    if api.commit():
+        print(task)
         logger.info("Todoist Clock-Out Task has been created")
-
-
-"""
-Routine to create a new Todoist Last Meal Task using the Sync API
-* Take current time
-* add 16 hours to it
-* Create a new Task 16h in the future
-"""
-
-
-def create_todoist_lastmeal_task():
-    now = datetime.datetime.now().astimezone(timezone('Europe/Amsterdam'))
-    cleared_time = datetime.timedelta(hours=INTERMITTENT_FASTING_HOURS) + now
-
-    checkin_time = str(now.hour) + ':' + str('%02d' % now.minute)
-    checkout_time = str(cleared_time.hour) + ':' + str('%02d' % cleared_time.minute)
-
-    task_content = ' Intermittent Fasting - Cleared to eat (Check in: ' + checkin_time + ')'
-
-    logger.info('Create Todoist LastMeal Task: ' + task_content + ' due at: ' + checkout_time)
-
-    api = TodoistAPI(token=get_token(), cache="/tmp/todoist")
-    logger.info("Trying to connect to Todoist API with: %s", get_token())
-    if not api.sync():
-        logger.warning('Todoist: API Sync failed')
-        exit()
-    api.items.add(task_content,
-                  project_id='1509802153',
-                  date_string=checkout_time,
-                  labels=[2154004914],
-                  priority=3)
-    if api.commit():
-        logger.info("Todoist LastMeal Task has been created")
+    except Exception as error:
+        print(error)
