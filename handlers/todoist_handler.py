@@ -140,8 +140,8 @@ def create_todoist_clockout_task():
         exit()
 
     try:
-        task = api.add_task(task_content,
-                  project_id='178923234', date_string=clockout_time, labels=[2147513595],
+        task = api.add_task(content=task_content,
+                  project_id='178923234', due_string=clockout_time, labels=[2147513595],
                   priority=3)
         print(task)
         logger.info("Todoist Clock-Out Task has been created")
