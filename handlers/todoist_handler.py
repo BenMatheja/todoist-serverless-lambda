@@ -95,8 +95,7 @@ def handle_event(event, context):
                 response = {"statusCode": "200",
                             "body": "clock-in event handled"
                             }
-            if json_body.get('event_data')['content'] not in ["Kommen Zeit notieren",
-                                                              "Last Meal finished"]:
+            if json_body.get('event_data')['content'] not in ["Kommen Zeit notieren"]:
                 response = {"statusCode": "200",
                             "body": "generic event handled"
                             }
@@ -133,14 +132,12 @@ def create_todoist_clockout_task():
     api = TodoistAPI(get_token())
     logger.info("Trying to connect to Todoist API with: %s", get_token())
     try:
-        projects = api.get_projects()
-        print(projects)
+        api.get_projects()
     except Exception as error:
-        logger.warning('Todoist: API Sync failed' + error)
+        logger.warning('Todoist: API Connection failed' + error)
         exit()
 
     try:
-        #labels=[2147513595]
         task = api.add_task(content=task_content,
                   project_id='178923234', due_string=clockout_time,
                   priority=3)
